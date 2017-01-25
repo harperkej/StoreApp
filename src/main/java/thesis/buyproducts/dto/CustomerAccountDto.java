@@ -1,6 +1,6 @@
-package thesis.buyproducts.vo;
+package thesis.buyproducts.dto;
 
-public class CustomerStateAccountVO {
+public class CustomerAccountDto {
 
 	private String userName;
 

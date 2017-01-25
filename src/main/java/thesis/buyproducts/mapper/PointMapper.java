@@ -3,19 +3,17 @@ package thesis.buyproducts.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import thesis.buyproducts.entity.PointMapping;
 import thesis.buyproducts.dto.PointMappingDto;
 
-public final class PointMappingMapperBean implements Mapper<PointMapping, PointMappingDto> {
+public final class PointMapper implements Mapper<PointMapping, PointMappingDto> {
 
 
-    private PointMappingMapperBean() {
+    private PointMapper() {
     }
 
-    public static PointMappingMapperBean getInstance() {
-        return new PointMappingMapperBean();
+    public static PointMapper getInstance() {
+        return new PointMapper();
     }
 
     @Override

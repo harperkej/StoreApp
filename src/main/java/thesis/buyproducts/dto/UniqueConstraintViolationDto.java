@@ -1,7 +1,7 @@
-package thesis.buyproducts.vo;
+package thesis.buyproducts.dto;
 
 
-public class UniqueConstraintViolationVO {
+public class UniqueConstraintViolationDto {
 
 	private String constraintName;
 	

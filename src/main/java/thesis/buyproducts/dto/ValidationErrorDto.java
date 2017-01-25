@@ -1,16 +1,16 @@
-package thesis.buyproducts.vo;
+package thesis.buyproducts.dto;
 
 import java.util.List;
 
-public class ValidationErrorVO {
+public class ValidationErrorDto {
 
-	private List<FieldErrorVO> listOfErrors;
+	private List<FieldErrorDto> listOfErrors;
 
-	public List<FieldErrorVO> getListOfErrors() {
+	public List<FieldErrorDto> getListOfErrors() {
 		return listOfErrors;
 	}
 
-	public void setListOfErrors(List<FieldErrorVO> listOfErrors) {
+	public void setListOfErrors(List<FieldErrorDto> listOfErrors) {
 		this.listOfErrors = listOfErrors;
 	}
 	

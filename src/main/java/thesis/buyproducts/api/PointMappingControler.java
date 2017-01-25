@@ -11,30 +11,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import thesis.buyproducts.mapper.PointMappingMapperBean;
+import thesis.buyproducts.entity.PointMapping;
+import thesis.buyproducts.mapper.PointMapper;
 import thesis.buyproducts.service.PointMappingService;
-import thesis.buyproducts.vo.PointMappingVO;
+import thesis.buyproducts.dto.PointMappingDto;
 
 @RestController
 @RequestMapping(value = "/pointmapping")
 public class PointMappingControler {
 
-	@Autowired
-	private PointMappingService pointMappingService;
+    @Autowired
+    private PointMappingService pointMappingService;
 
-	@Autowired
-	private PointMappingMapperBean pointMappingMapperBean;
+    @ResponseStatus(code = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean updatePointMapper(@RequestBody @Valid PointMappingDto pointMapperVO) {
+        return pointMappingService.updatePointMapper(PointMapper.getInstance().mapDtoFrom(pointMapperVO));
+    }
 
-	@ResponseStatus(code = HttpStatus.OK)
-	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public boolean updatePointMapper(@RequestBody @Valid PointMappingVO pointMapperVO) {
-		return pointMappingService.updatePointMapper(pointMappingMapperBean.mapEntityFrom(pointMapperVO));
-	}
-
-	@ResponseStatus(code = HttpStatus.OK)
-	@RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Double getPointMapper() {
-		return pointMappingService.getPointMapper();
-	}
+    @ResponseStatus(code = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Double getPointMapper() {
+        return pointMappingService.getPointMapper();
+    }
 
 }

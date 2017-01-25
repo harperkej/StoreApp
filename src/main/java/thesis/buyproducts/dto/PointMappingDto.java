@@ -1,8 +1,8 @@
-package thesis.buyproducts.vo;
+package thesis.buyproducts.dto;
 
 import javax.validation.constraints.Min;
 
-public class PointMappingVO {
+public class PointMappingDto {
 
 	private Long id;
 

@@ -10,8 +10,8 @@ import thesis.buyproducts.execption.RepositoryException;
 import thesis.buyproducts.execption.StrategyException;
 import thesis.buyproducts.execption.domaintype.DaoExceptionType;
 import thesis.buyproducts.repository.CustomerRepository;
-import thesis.buyproducts.util.PointToAmountAndViceVersaConvertor;
-import thesis.buyproducts.vo.CustomerStateAccountVO;
+import thesis.buyproducts.util.ConvertUtil;
+import thesis.buyproducts.dto.CustomerAccountDto;
 
 @Component
 @Transactional
@@ -21,14 +21,14 @@ public class PurchaseProcessorStrategyBean implements PurchaseProcessorStrategy 
 	private CustomerRepository customerDao;
 
 	@Autowired
-	private PointToAmountAndViceVersaConvertor pointToAmountAndViceVersaConvertor;
+	private ConvertUtil convertUtil;
 
 	@Override
-	public CustomerStateAccountVO processPurchase(String username, Double amount) throws StrategyException {
+	public CustomerAccountDto processPurchase(String username, Double amount) throws StrategyException {
 		try {
 			Customer customer = customerDao.findByUsername(username);
 			Double currentPointsOfUser = customer.getPoints();
-			Double pointsOfThisPurchase = pointToAmountAndViceVersaConvertor.validateAndConvertAmountToPoints(amount);
+			Double pointsOfThisPurchase = convertUtil.validateAndConvertAmountToPoints(amount);
 			if (pointsOfThisPurchase.doubleValue() == -1) {
 				throw StrategyException.amountNotValid("Amount : " + amount.toString() + " not valid :-(");
 			}
@@ -38,7 +38,7 @@ public class PurchaseProcessorStrategyBean implements PurchaseProcessorStrategy 
 			double totalOfPoints = currentPointsOfUser.doubleValue() + pointsOfThisPurchase;
 			customer.setPoints(new Double(totalOfPoints));
 			customerDao.update(customer);
-			CustomerStateAccountVO customerStateAccount = new CustomerStateAccountVO();
+			CustomerAccountDto customerStateAccount = new CustomerAccountDto();
 			customerStateAccount.setFirstName(customer.getFirstName());
 			customerStateAccount.setLastName(customer.getLastName());
 			customerStateAccount.setUserName(customer.getUserName());

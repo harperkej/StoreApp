@@ -18,7 +18,7 @@ import thesis.buyproducts.execption.ExceptionDetails;
 import thesis.buyproducts.execption.RestApiException;
 import thesis.buyproducts.execption.domaintype.RestApiExceptionType;
 import thesis.buyproducts.util.ResolveValidationErrorMessage;
-import thesis.buyproducts.vo.ValidationErrorVO;
+import thesis.buyproducts.dto.ValidationErrorDto;
 
 @ControllerAdvice
 public class GeneralControllerAdvicer {
@@ -29,7 +29,7 @@ public class GeneralControllerAdvicer {
 	@ResponseBody
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.CONFLICT)
-	public ValidationErrorVO handleValidationViolation(MethodArgumentNotValidException e) {
+	public ValidationErrorDto handleValidationViolation(MethodArgumentNotValidException e) {
 		BindingResult bindingResult = e.getBindingResult();
 		List<FieldError> errors = bindingResult.getFieldErrors();
 		return resolveValidationErrorMessage.proccesFieldErrors(errors);

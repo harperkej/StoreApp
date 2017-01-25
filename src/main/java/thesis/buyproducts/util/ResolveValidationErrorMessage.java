@@ -10,8 +10,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
-import thesis.buyproducts.vo.FieldErrorVO;
-import thesis.buyproducts.vo.ValidationErrorVO;
+import thesis.buyproducts.dto.FieldErrorDto;
+import thesis.buyproducts.dto.ValidationErrorDto;
 
 @Component
 public class ResolveValidationErrorMessage {
@@ -30,20 +30,20 @@ public class ResolveValidationErrorMessage {
 		return getMessageSource().getMessage(fieldError, currentLocale);
 	}
 	
-	public ValidationErrorVO proccesFieldErrors(List<FieldError> fieldErrors)
+	public ValidationErrorDto proccesFieldErrors(List<FieldError> fieldErrors)
 	{
-		ValidationErrorVO validationErrorVO = new ValidationErrorVO();
-		List<FieldErrorVO> listOfFieldErrorVO = new ArrayList<FieldErrorVO>();
-		FieldErrorVO fieldErrorVO;
+		ValidationErrorDto validationErrorDto = new ValidationErrorDto();
+		List<FieldErrorDto> listOfFieldErrorDto = new ArrayList<FieldErrorDto>();
+		FieldErrorDto fieldErrorDto;
 		for (FieldError fieldError : fieldErrors) {
 			String localizedMessage = resolveLocalizedError(fieldError);
-			fieldErrorVO = new FieldErrorVO();
-			fieldErrorVO.setField(fieldError.getField());
-			fieldErrorVO.setMessage(localizedMessage);
-			listOfFieldErrorVO.add(fieldErrorVO);
+			fieldErrorDto = new FieldErrorDto();
+			fieldErrorDto.setField(fieldError.getField());
+			fieldErrorDto.setMessage(localizedMessage);
+			listOfFieldErrorDto.add(fieldErrorDto);
 		}
-		validationErrorVO.setListOfErrors(listOfFieldErrorVO);
-		return validationErrorVO;
+		validationErrorDto.setListOfErrors(listOfFieldErrorDto);
+		return validationErrorDto;
 	}
 	
 }

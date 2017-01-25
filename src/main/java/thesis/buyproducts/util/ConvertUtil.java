@@ -9,7 +9,7 @@ import thesis.buyproducts.service.PointMappingService;
 
 @Component
 @Transactional
-public class PointToAmountAndViceVersaConvertor {
+public class ConvertUtil {
 
 	private static final double defaultPointMapper = 20;
 

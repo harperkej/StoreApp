@@ -1,8 +1,8 @@
-package thesis.buyproducts.vo;
+package thesis.buyproducts.dto;
 
 import javax.validation.constraints.Size;
 
-public class CustomerVO {
+public class CustomerDto {
 
 	private Long id;
 

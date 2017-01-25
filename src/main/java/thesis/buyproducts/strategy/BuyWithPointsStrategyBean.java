@@ -11,8 +11,8 @@ import thesis.buyproducts.execption.StrategyException;
 import thesis.buyproducts.execption.domaintype.DaoExceptionType;
 import thesis.buyproducts.execption.domaintype.StrategyExceptionType;
 import thesis.buyproducts.repository.CustomerRepository;
-import thesis.buyproducts.util.PointToAmountAndViceVersaConvertor;
-import thesis.buyproducts.vo.BuyWithPointsVO;
+import thesis.buyproducts.util.ConvertUtil;
+import thesis.buyproducts.dto.BuyWithPointsDto;
 
 @Component
 @Transactional
@@ -22,18 +22,18 @@ public class BuyWithPointsStrategyBean implements BuyWithPointsStrategy {
 	private CustomerRepository customerDao;
 
 	@Autowired
-	private PointToAmountAndViceVersaConvertor pointToAmountAndViceVersaConvertor;
+	private ConvertUtil convertUtil;
 
 	@Override
-	public BuyWithPointsVO processPurchaseWithPoints(String username, Double amount) throws StrategyException {
-		BuyWithPointsVO purchaseResult = new BuyWithPointsVO();
+	public BuyWithPointsDto processPurchaseWithPoints(String username, Double amount) throws StrategyException {
+		BuyWithPointsDto purchaseResult = new BuyWithPointsDto();
 		try {
 			Customer customer = customerDao.findByUsername(username);
 			Double pointsOfTheCostumer = customer.getPoints();
 			if (pointsOfTheCostumer == null) {
 				pointsOfTheCostumer = new Double(0);
 			}
-			Double pointsBasedOnAmount = pointToAmountAndViceVersaConvertor.validateAmount(amount);
+			Double pointsBasedOnAmount = convertUtil.validateAmount(amount);
 			if (pointsBasedOnAmount.doubleValue() == -1) {
 				throw StrategyException.amountNotValid("Amount : " + amount + " not valid amount :-(");
 			}
@@ -64,7 +64,7 @@ public class BuyWithPointsStrategyBean implements BuyWithPointsStrategy {
 				purchaseResult.setUsername(customer.getUserName());
 				purchaseResult.setPointsLeft(customer.getPoints());
 				Double pointsToConvertInAmount = pointsBasedOnAmount - pointsOfTheCostumer;
-				Double amountToPa = pointToAmountAndViceVersaConvertor.validateAmount(pointsToConvertInAmount);
+				Double amountToPa = convertUtil.validateAmount(pointsToConvertInAmount);
 				if (amountToPa == -1) {
 					throw StrategyException.errorProcessingPoints("Error processing points! :-(. Try again.");
 				}
