@@ -13,16 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import thesis.buyproducts.entity.Customer;
-import thesis.buyproducts.execption.StrategyException;
 import thesis.buyproducts.execption.RestApiException;
 import thesis.buyproducts.execption.ServiceException;
-import thesis.buyproducts.execption.domaintype.StrategyExceptionType;
-import thesis.buyproducts.execption.domaintype.ServiceExceptionType;
-import thesis.buyproducts.mapper.CustomerMapper;
 import thesis.buyproducts.service.CustomerService;
-import thesis.buyproducts.strategy.BuyWithPointsStrategy;
-import thesis.buyproducts.strategy.PurchaseProcessorStrategy;
+import thesis.buyproducts.service.BuyWithPointsService;
+import thesis.buyproducts.service.PurchaseProcessorService;
 import thesis.buyproducts.dto.BuyWithPointsDto;
 import thesis.buyproducts.dto.CustomerAccountDto;
 import thesis.buyproducts.dto.CustomerDto;
@@ -35,98 +30,81 @@ public class CustomerControler {
     private CustomerService customerService;
 
     @Autowired
-    private PurchaseProcessorStrategy customerStateAccountStateStrategy;
+    private PurchaseProcessorService customerStateAccountStateStrategy;
 
     @Autowired
-    private BuyWithPointsStrategy buyWithPointsStrategy;
+    private BuyWithPointsService buyWithPointsService;
 
     @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto persist(@RequestBody @Valid CustomerDto customerDto) throws RestApiException {
+        CustomerDto customerDtoRes;
         try {
-            Customer customer = CustomerMapper.getInstance().mapDtoFrom(customerDto);
-            customerService.persist(customer);
-            return CustomerMapper.getInstance().mapEntityFrom(customer);
+            customerDtoRes = customerService.persist(customerDto);
         } catch (ServiceException e) {
-            if (e.getServiceExceptionType() == ServiceExceptionType.USERNAME_NOT_UNIQUE) {
-                throw RestApiException.userNameNotUnique(e.getMessage());
-            } else if (e.getServiceExceptionType() == ServiceExceptionType.ERROR_PERSISTING) {
-                throw RestApiException.errorPersisting(e.getMessage());
-            }
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
-        throw RestApiException.unhandledException("Creating a new customer went wrong!");
+        return customerDtoRes;
     }
 
     @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto updateCustomer(@RequestBody @Valid CustomerDto customerDto) throws RestApiException {
+        CustomerDto customerDtoRes;
         try {
-            return CustomerMapper.getInstance().mapEntityFrom(customerService.update(CustomerMapper.getInstance().mapDtoFrom(customerDto)));
+            customerDtoRes = customerService.update(customerDto);
         } catch (ServiceException e) {
-            if (e.getServiceExceptionType() == ServiceExceptionType.USERNAME_NOT_UNIQUE) {
-                throw RestApiException.userNameNotUnique(e.getMessage());
-            } else if (e.getServiceExceptionType() == ServiceExceptionType.NOT_FOUND) {
-                throw RestApiException.notFound(e.getMessage());
-            } else {
-                throw RestApiException.errorUpdating(e.getMessage());
-            }
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
+        return customerDtoRes;
     }
 
     @ResponseStatus(code = HttpStatus.FOUND)
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto findByPK(@PathVariable("id") Long id) throws RestApiException {
+        CustomerDto customerDtoRes;
         try {
-            return CustomerMapper.getInstance().mapEntityFrom(customerService.findById(id));
+            customerDtoRes = customerService.findById(id);
         } catch (ServiceException e) {
-            throw RestApiException.notFound(e.getMessage());
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
+        return customerDtoRes;
     }
 
     @ResponseStatus(code = HttpStatus.FOUND)
     @RequestMapping(value = "/username/{username}/", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto findByUserName(@PathVariable("username") String userName) throws RestApiException {
+        CustomerDto customerDtoRes;
         try {
-            return CustomerMapper.getInstance().mapEntityFrom(customerService.findByUserName(userName));
+            customerDtoRes = customerService.findByUserName(userName);
         } catch (ServiceException e) {
-            throw RestApiException.notFound(e.getMessage());
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
+        return customerDtoRes;
     }
 
     @RequestMapping(value = "/username/{username}/amount/{amount}/", method = RequestMethod.PUT)
     public CustomerAccountDto processPurchase(@PathVariable("username") String username,
                                               @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
+        CustomerAccountDto customerAccountDto;
         try {
-            return customerStateAccountStateStrategy.processPurchase(username, amount);
-        } catch (StrategyException exception) {
-            if (exception.getExceptionType() == StrategyExceptionType.AMOUNT_NOT_VALID) {
-                throw RestApiException.invalidAmount(exception.getMessage());
-            } else if (exception.getExceptionType() == StrategyExceptionType.COULT_NOT_FIND_USER) {
-                throw RestApiException.notFound(exception.getMessage());
-            } else if (exception.getExceptionType() == StrategyExceptionType.ERROR_UPDAING_USER) {
-                throw RestApiException.errorUpdating(exception.getMessage());
-            }
+            customerAccountDto = customerStateAccountStateStrategy.processPurchase(username, amount);
+        } catch (ServiceException e) {
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
-        return null;
+        return customerAccountDto;
     }
 
     @RequestMapping(value = "/usepoints/username/{username}/amount/{amount}/", method = RequestMethod.PUT)
     public BuyWithPointsDto buyWithPoints(@PathVariable("username") String username,
                                           @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
+        BuyWithPointsDto buyWithPointsDto;
         try {
-            return buyWithPointsStrategy.processPurchaseWithPoints(username, amount);
-        } catch (StrategyException exception) {
-            if (exception.getExceptionType() == StrategyExceptionType.COULT_NOT_FIND_USER) {
-                throw RestApiException.notFound(exception.getMessage());
-            } else if (exception.getExceptionType() == StrategyExceptionType.ERROR_UPDAING_USER) {
-                throw RestApiException.errorUpdating(exception.getMessage());
-            } else if (exception.getExceptionType() == StrategyExceptionType.AMOUNT_NOT_VALID) {
-                throw RestApiException.invalidAmount(exception.getMessage());
-            } else if (exception.getExceptionType() == StrategyExceptionType.ERROR_PROCESSING_POINTS) {
-                throw RestApiException.errorProcessingPoints(exception.getMessage());
-            }
+            buyWithPointsDto = buyWithPointsService.processPurchaseWithPoints(username, amount);
+        } catch (ServiceException e) {
+            throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
-        return null;
+        return buyWithPointsDto;
     }
 
 }

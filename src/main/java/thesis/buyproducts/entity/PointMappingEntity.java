@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class PointMapping {
+public class PointMappingEntity {
 
 	@Id
 	private Long id;

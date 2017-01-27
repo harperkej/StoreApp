@@ -3,10 +3,10 @@ package thesis.buyproducts.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import thesis.buyproducts.entity.Customer;
+import thesis.buyproducts.entity.CustomerEntity;
 import thesis.buyproducts.dto.CustomerDto;
 
-public final class CustomerMapper implements Mapper<Customer, CustomerDto> {
+public final class CustomerMapper implements Mapper<CustomerEntity, CustomerDto> {
 
     /**
      * Do not initialize me please!
@@ -21,45 +21,45 @@ public final class CustomerMapper implements Mapper<Customer, CustomerDto> {
 
 
     @Override
-    public CustomerDto mapEntityFrom(Customer customer) {
+    public CustomerDto mapEntityFrom(CustomerEntity customerEntity) {
         CustomerDto customerDto = null;
-        if (customer != null) {
+        if (customerEntity != null) {
             customerDto = new CustomerDto();
-            if (customer.getId() != null) {
-                customerDto.setId(customer.getId());
+            if (customerEntity.getId() != null) {
+                customerDto.setId(customerEntity.getId());
             }
-            customerDto.setFirstName(customer.getFirstName());
-            customerDto.setLastName(customer.getLastName());
-            customerDto.setPoints(customer.getPoints() != null ? customer.getPoints() : 0);
-            customerDto.setUserName(customer.getUserName());
+            customerDto.setFirstName(customerEntity.getFirstName());
+            customerDto.setLastName(customerEntity.getLastName());
+            customerDto.setPoints(customerEntity.getPoints() != null ? customerEntity.getPoints() : 0);
+            customerDto.setUserName(customerEntity.getUserName());
         }
         return customerDto;
     }
 
     @Override
-    public Customer mapDtoFrom(CustomerDto customerDto) {
-        Customer customer = null;
+    public CustomerEntity mapDtoFrom(CustomerDto customerDto) {
+        CustomerEntity customerEntity = null;
         if (customerDto != null) {
-            customer = new Customer();
+            customerEntity = new CustomerEntity();
             if (customerDto.getId() != null) {
-                customer.setId(customerDto.getId());
+                customerEntity.setId(customerDto.getId());
             }
-            customer.setUserName(customerDto.getUserName());
-            customer.setPoints(customerDto.getPoints() != null ? customerDto.getPoints() : 0);
-            customer.setLastName(customerDto.getLastName());
-            customer.setFirstName(customerDto.getFirstName());
+            customerEntity.setUserName(customerDto.getUserName());
+            customerEntity.setPoints(customerDto.getPoints() != null ? customerDto.getPoints() : 0);
+            customerEntity.setLastName(customerDto.getLastName());
+            customerEntity.setFirstName(customerDto.getFirstName());
         }
-        return customer;
+        return customerEntity;
     }
 
     @Override
-    public List<CustomerDto> mapEntitiesFrom(List<Customer> customers) {
+    public List<CustomerDto> mapEntitiesFrom(List<CustomerEntity> customerEntities) {
         List<CustomerDto> result = null;
-        if (customers != null && !customers.isEmpty()) {
+        if (customerEntities != null && !customerEntities.isEmpty()) {
             result = new ArrayList<>();
             CustomerDto customerDto;
-            for (Customer customer : customers) {
-                customerDto = this.mapEntityFrom(customer);
+            for (CustomerEntity customerEntity : customerEntities) {
+                customerDto = this.mapEntityFrom(customerEntity);
                 result.add(customerDto);
             }
         }
@@ -67,14 +67,14 @@ public final class CustomerMapper implements Mapper<Customer, CustomerDto> {
     }
 
     @Override
-    public List<Customer> mapDtosFrom(List<CustomerDto> dtoList) {
-        List<Customer> result = null;
+    public List<CustomerEntity> mapDtosFrom(List<CustomerDto> dtoList) {
+        List<CustomerEntity> result = null;
         if (dtoList != null && !dtoList.isEmpty()) {
             result = new ArrayList<>();
-            Customer customer;
+            CustomerEntity customerEntity;
             for (CustomerDto customerDto : dtoList) {
-                customer = this.mapDtoFrom(customerDto);
-                result.add(customer);
+                customerEntity = this.mapDtoFrom(customerDto);
+                result.add(customerEntity);
             }
         }
         return result;

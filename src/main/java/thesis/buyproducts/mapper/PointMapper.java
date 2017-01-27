@@ -3,10 +3,10 @@ package thesis.buyproducts.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import thesis.buyproducts.entity.PointMapping;
+import thesis.buyproducts.entity.PointMappingEntity;
 import thesis.buyproducts.dto.PointMappingDto;
 
-public final class PointMapper implements Mapper<PointMapping, PointMappingDto> {
+public final class PointMapper implements Mapper<PointMappingEntity, PointMappingDto> {
 
 
     private PointMapper() {
@@ -17,39 +17,39 @@ public final class PointMapper implements Mapper<PointMapping, PointMappingDto> 
     }
 
     @Override
-    public PointMappingDto mapEntityFrom(PointMapping pointMapping) {
+    public PointMappingDto mapEntityFrom(PointMappingEntity pointMappingEntity) {
         PointMappingDto pointMappingDto = null;
-        if (pointMapping != null) {
+        if (pointMappingEntity != null) {
             pointMappingDto = new PointMappingDto();
-            if (pointMapping.getId() != null) {
-                pointMappingDto.setId(pointMapping.getId());
+            if (pointMappingEntity.getId() != null) {
+                pointMappingDto.setId(pointMappingEntity.getId());
             }
-            pointMappingDto.setValue(pointMapping.getValue());
+            pointMappingDto.setValue(pointMappingEntity.getValue());
         }
         return pointMappingDto;
     }
 
     @Override
-    public PointMapping mapDtoFrom(PointMappingDto pointMappingDto) {
-        PointMapping pointMapping = null;
+    public PointMappingEntity mapDtoFrom(PointMappingDto pointMappingDto) {
+        PointMappingEntity pointMappingEntity = null;
         if (pointMappingDto != null) {
-            pointMapping = new PointMapping();
+            pointMappingEntity = new PointMappingEntity();
             if (pointMappingDto.getId() != null) {
-                pointMapping.setId(pointMappingDto.getId());
+                pointMappingEntity.setId(pointMappingDto.getId());
             }
-            pointMapping.setValue(pointMappingDto.getValue());
+            pointMappingEntity.setValue(pointMappingDto.getValue());
         }
-        return pointMapping;
+        return pointMappingEntity;
     }
 
     @Override
-    public List<PointMappingDto> mapEntitiesFrom(List<PointMapping> pointMappings) {
+    public List<PointMappingDto> mapEntitiesFrom(List<PointMappingEntity> pointMappingEntities) {
         List<PointMappingDto> result = null;
-        if (pointMappings != null && pointMappings.isEmpty()) {
+        if (pointMappingEntities != null && pointMappingEntities.isEmpty()) {
             result = new ArrayList<>();
             PointMappingDto pointMappingDto;
-            for (PointMapping pointMapping : pointMappings) {
-                pointMappingDto = this.mapEntityFrom(pointMapping);
+            for (PointMappingEntity pointMappingEntity : pointMappingEntities) {
+                pointMappingDto = this.mapEntityFrom(pointMappingEntity);
                 result.add(pointMappingDto);
             }
         }
@@ -57,14 +57,14 @@ public final class PointMapper implements Mapper<PointMapping, PointMappingDto> 
     }
 
     @Override
-    public List<PointMapping> mapDtosFrom(List<PointMappingDto> pointMappingDtos) {
-        List<PointMapping> result = null;
+    public List<PointMappingEntity> mapDtosFrom(List<PointMappingDto> pointMappingDtos) {
+        List<PointMappingEntity> result = null;
         if (pointMappingDtos != null && !pointMappingDtos.isEmpty()) {
             result = new ArrayList<>();
-            PointMapping pointMapping;
+            PointMappingEntity pointMappingEntity;
             for (PointMappingDto pointMappingDto : pointMappingDtos) {
-                pointMapping = this.mapDtoFrom(pointMappingDto);
-                result.add(pointMapping);
+                pointMappingEntity = this.mapDtoFrom(pointMappingDto);
+                result.add(pointMappingEntity);
             }
         }
         return result;

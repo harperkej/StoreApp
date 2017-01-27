@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import thesis.buyproducts.entity.PointMapping;
+import thesis.buyproducts.entity.PointMappingEntity;
 
 @Repository
 public class PointMappingRepositoryBean implements PointMappingRepository {
@@ -14,7 +14,7 @@ public class PointMappingRepositoryBean implements PointMappingRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public boolean updatePointMapper(PointMapping pointMapper) {
+	public boolean updatePointMapper(PointMappingEntity pointMapper) {
 		try {
 			pointMapper.setId(new Long(1));
 			entityManager.merge(pointMapper);
@@ -26,7 +26,7 @@ public class PointMappingRepositoryBean implements PointMappingRepository {
 
 	@Override
 	public Double getPointMapper() {
-		PointMapping pointMapper = entityManager.find(PointMapping.class, new Long(1));
+		PointMappingEntity pointMapper = entityManager.find(PointMappingEntity.class, new Long(1));
 		if (pointMapper == null) {
 			return new Double(0);
 		} else {

@@ -9,8 +9,8 @@ import javax.persistence.NamedQuery;
 import javax.validation.constraints.Min;
 
 @Entity
-@NamedQuery(name = "findCustomerByUsername", query = "select customer from Customer as customer where customer.userName = ?")
-public class Customer {
+@NamedQuery(name = "findCustomerByUsername", query = "select customer from CustomerEntity as customer where customer.userName = ?")
+public class CustomerEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
