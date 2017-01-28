@@ -1,10 +1,8 @@
 package thesis.buyproducts.util;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import thesis.buyproducts.execption.ServiceException;
 import thesis.buyproducts.service.PointMappingService;
 
 @Component
@@ -15,7 +13,7 @@ public class ConvertUtil {
     @Autowired
     private PointMappingService pointMappingService;
 
-    public Double validateAndConvertAmountToPoints(Double amount) {
+    public Double validateAndConvertAmountToPoints(Double amount) throws ServiceException {
         Double result;
         Double pointMapping = pointMappingService.getPointMapper();
 

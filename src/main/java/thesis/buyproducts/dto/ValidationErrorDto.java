@@ -4,14 +4,14 @@ import java.util.List;
 
 public class ValidationErrorDto {
 
-	private List<FieldErrorDto> listOfErrors;
+    private List<FieldErrorDto> listOfErrors;
 
-	public List<FieldErrorDto> getListOfErrors() {
-		return listOfErrors;
-	}
+    public List<FieldErrorDto> getListOfErrors() {
+        return listOfErrors;
+    }
 
-	public void setListOfErrors(List<FieldErrorDto> listOfErrors) {
-		this.listOfErrors = listOfErrors;
-	}
-	
+    public void setListOfErrors(List<FieldErrorDto> listOfErrors) {
+        this.listOfErrors = listOfErrors;
+    }
+
 }

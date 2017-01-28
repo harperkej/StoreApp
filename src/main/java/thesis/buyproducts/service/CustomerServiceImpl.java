@@ -1,10 +1,8 @@
 package thesis.buyproducts.service;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import thesis.buyproducts.dto.CustomerDto;
 import thesis.buyproducts.execption.ExceptionType;
 import thesis.buyproducts.execption.RepositoryException;
@@ -14,38 +12,31 @@ import thesis.buyproducts.repository.CustomerRepository;
 import java.util.List;
 
 @Service
-@Transactional(rollbackFor = {ServiceException.class})
+@Transactional(rollbackFor = {RepositoryException.class, ServiceException.class, Exception.class})
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    private Logger logger = Logger.getLogger(CustomerServiceImpl.class);
 
     @Override
     public CustomerDto persist(CustomerDto customerEntity) throws ServiceException {
-        final String MN = "persist";
-        logger.info(MN);
         CustomerDto result;
         try {
             result = customerRepository.persist(customerEntity);
         } catch (RepositoryException e) {
-            logger.error(e);
             throw new ServiceException(e.getMessage(), e.getExceptionType());
         } catch (ServiceException e) {
-            logger.error(e);
             throw new ServiceException(e.getMessage(), e.getExceptionType());
         } catch (Exception e) {
-            logger.error(e);
             throw new ServiceException(e.getMessage(), ExceptionType.UNKONW_ERROR);
         }
-        logger.info(MN);
         return result;
     }
 
     @Override
     public CustomerDto findById(Long id) throws ServiceException {
-        CustomerDto result = null;
+        CustomerDto result;
         try {
             result = customerRepository.findById(id);
             if (result == null) {
@@ -62,17 +53,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto update(CustomerDto customerEntity) throws ServiceException {
+    public CustomerDto update(CustomerDto customerDto) throws ServiceException {
         CustomerDto result;
         try {
-            if (customerEntity == null) {
+            if (customerDto == null) {
                 throw new ServiceException("Customer was null!", ExceptionType.BAD_INPUT);
             }
-            result = this.findByUserName(customerEntity.getUserName());
-            result.setFirstName(customerEntity.getFirstName());
-            result.setLastName(customerEntity.getLastName());
-            result.setPoints(customerEntity.getPoints());
-            result.setUserName(customerEntity.getUserName());
+            result = this.findByUserName(customerDto.getUserName());
+            result.setFirstName(customerDto.getFirstName());
+            result.setLastName(customerDto.getLastName());
+            result.setPoints(customerDto.getPoints());
+            result.setUserName(customerDto.getUserName());
             result = customerRepository.update(result);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e.getExceptionType());

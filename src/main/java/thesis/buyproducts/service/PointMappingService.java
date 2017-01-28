@@ -1,11 +1,12 @@
 package thesis.buyproducts.service;
 
-import thesis.buyproducts.entity.PointMappingEntity;
+import thesis.buyproducts.dto.PointMappingDto;
+import thesis.buyproducts.execption.ServiceException;
 
 public interface PointMappingService {
 
-	public boolean updatePointMapper(PointMappingEntity pointMapper);
+    public boolean updatePointMapper(PointMappingDto pointMapper) throws ServiceException;
 
-	public Double getPointMapper();
+    public Double getPointMapper() throws ServiceException;
 
 }

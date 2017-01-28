@@ -2,44 +2,44 @@ package thesis.buyproducts.dto;
 
 public class CustomerAccountDto {
 
-	private String userName;
+    private String userName;
 
-	private String firstName;
+    private String firstName;
 
-	private String lastName;
+    private String lastName;
 
-	private Double points;
+    private Double points;
 
-	
-	public String getUserName() {
-		return userName;
-	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public Double getPoints() {
-		return points;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setPoints(Double points) {
-		this.points = points;
-	}
+    public Double getPoints() {
+        return points;
+    }
+
+    public void setPoints(Double points) {
+        this.points = points;
+    }
 }

@@ -2,26 +2,25 @@ package thesis.buyproducts.dto;
 
 public class FieldErrorDto {
 
-	private String field;
-	
-	private String message;
+    private String field;
 
-	public String getField() {
-		return field;
-	}
+    private String message;
 
-	public void setField(String field) {
-		this.field = field;
-	}
+    public String getField() {
+        return field;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setField(String field) {
+        this.field = field;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	
-	
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
 }

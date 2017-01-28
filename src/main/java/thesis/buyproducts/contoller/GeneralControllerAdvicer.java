@@ -1,7 +1,4 @@
-package thesis.buyproducts.api;
-
-import java.sql.Timestamp;
-import java.util.List;
+package thesis.buyproducts.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +10,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+import thesis.buyproducts.dto.ValidationErrorDto;
 import thesis.buyproducts.execption.ExceptionDetails;
 import thesis.buyproducts.execption.RestApiException;
 import thesis.buyproducts.util.ResolveValidationErrorMessage;
-import thesis.buyproducts.dto.ValidationErrorDto;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @ControllerAdvice
 public class GeneralControllerAdvicer {
@@ -46,17 +45,17 @@ public class GeneralControllerAdvicer {
                 responseEntity = new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
                 break;
             case ERORR_UPDATING:
-                responseEntity = new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.CONFLICT);
+                responseEntity = new ResponseEntity<>(exceptionDetails, HttpStatus.CONFLICT);
                 break;
             case NOTHING_FOUND:
-                responseEntity = new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.NOT_FOUND);
+                responseEntity = new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
                 break;
             case ERROR_SAVING:
             case UNKONW_ERROR:
-                responseEntity = new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+                responseEntity = new ResponseEntity<>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
                 break;
             default:
-                responseEntity = new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+                responseEntity = new ResponseEntity<>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
                 break;
         }
         return responseEntity;

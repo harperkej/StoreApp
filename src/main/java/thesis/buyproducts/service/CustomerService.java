@@ -1,7 +1,6 @@
 package thesis.buyproducts.service;
 
 import thesis.buyproducts.dto.CustomerDto;
-import thesis.buyproducts.entity.CustomerEntity;
 import thesis.buyproducts.execption.ServiceException;
 
 public interface CustomerService {

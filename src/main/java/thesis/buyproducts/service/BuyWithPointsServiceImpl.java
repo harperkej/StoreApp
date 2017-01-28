@@ -1,20 +1,19 @@
 package thesis.buyproducts.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import thesis.buyproducts.dto.BuyWithPointsDto;
 import thesis.buyproducts.dto.CustomerDto;
 import thesis.buyproducts.execption.ExceptionType;
 import thesis.buyproducts.execption.RepositoryException;
 import thesis.buyproducts.execption.ServiceException;
 import thesis.buyproducts.repository.CustomerRepository;
 import thesis.buyproducts.util.ConvertUtil;
-import thesis.buyproducts.dto.BuyWithPointsDto;
+
+import javax.transaction.Transactional;
 
 @Component
-@Transactional
+@Transactional(rollbackOn = {RepositoryException.class, ServiceException.class, Exception.class})
 public class BuyWithPointsServiceImpl implements BuyWithPointsService {
 
     @Autowired
@@ -39,12 +38,11 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
             if (new Double(-1).equals(pointsBasedOnAmount)) {
                 throw new ServiceException("Amount : " + amount + " not valid amount :-(", ExceptionType.BAD_INPUT);
             }
-
+            purchaseResult = new BuyWithPointsDto();
             if (pointsOfTheCostumer.doubleValue() == pointsBasedOnAmount.doubleValue()) {
                 pointsOfTheCostumer = new Double(0);
                 customerDto.setPoints(pointsOfTheCostumer);
                 customerepository.update(customerDto);
-                purchaseResult = new BuyWithPointsDto();
                 purchaseResult.setFirstName(customerDto.getFirstName());
                 purchaseResult.setLastName(customerDto.getLastName());
                 purchaseResult.setUsername(customerDto.getUserName());

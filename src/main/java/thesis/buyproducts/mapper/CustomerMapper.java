@@ -1,10 +1,10 @@
 package thesis.buyproducts.mapper;
 
+import thesis.buyproducts.dto.CustomerDto;
+import thesis.buyproducts.entity.CustomerEntity;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import thesis.buyproducts.entity.CustomerEntity;
-import thesis.buyproducts.dto.CustomerDto;
 
 public final class CustomerMapper implements Mapper<CustomerEntity, CustomerDto> {
 
@@ -18,7 +18,6 @@ public final class CustomerMapper implements Mapper<CustomerEntity, CustomerDto>
     public static CustomerMapper getInstance() {
         return new CustomerMapper();
     }
-
 
     @Override
     public CustomerDto mapEntityFrom(CustomerEntity customerEntity) {
