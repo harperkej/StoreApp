@@ -1,36 +1,31 @@
-package thesis.buyproducts.api;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
+package thesis.buyproducts.contoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import thesis.buyproducts.execption.RestApiException;
-import thesis.buyproducts.execption.ServiceException;
-import thesis.buyproducts.service.CustomerService;
-import thesis.buyproducts.service.BuyWithPointsService;
-import thesis.buyproducts.service.PurchaseProcessorService;
+import org.springframework.web.bind.annotation.*;
 import thesis.buyproducts.dto.BuyWithPointsDto;
 import thesis.buyproducts.dto.CustomerAccountDto;
 import thesis.buyproducts.dto.CustomerDto;
+import thesis.buyproducts.execption.RestApiException;
+import thesis.buyproducts.execption.ServiceException;
+import thesis.buyproducts.service.BuyWithPointsService;
+import thesis.buyproducts.service.CustomerService;
+import thesis.buyproducts.service.PurchaseProcessorService;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 
 @RestController
-@RequestMapping(value = "/customer")
-public class CustomerControler {
+@RequestMapping(value = "api/customers")
+public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
     @Autowired
-    private PurchaseProcessorService customerStateAccountStateStrategy;
+    private PurchaseProcessorService purchaseProcessorService;
 
     @Autowired
     private BuyWithPointsService buyWithPointsService;
@@ -60,7 +55,7 @@ public class CustomerControler {
     }
 
     @ResponseStatus(code = HttpStatus.FOUND)
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto findByPK(@PathVariable("id") Long id) throws RestApiException {
         CustomerDto customerDtoRes;
         try {
@@ -83,28 +78,28 @@ public class CustomerControler {
         return customerDtoRes;
     }
 
-    @RequestMapping(value = "/username/{username}/amount/{amount}/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/username/{username}/amount/{amount}/points", method = RequestMethod.PUT)
     public CustomerAccountDto processPurchase(@PathVariable("username") String username,
                                               @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
-        CustomerAccountDto customerAccountDto;
+        CustomerAccountDto customerAccountDtoRes;
         try {
-            customerAccountDto = customerStateAccountStateStrategy.processPurchase(username, amount);
+            customerAccountDtoRes = purchaseProcessorService.processPurchase(username, amount);
         } catch (ServiceException e) {
             throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
-        return customerAccountDto;
+        return customerAccountDtoRes;
     }
 
-    @RequestMapping(value = "/usepoints/username/{username}/amount/{amount}/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/username/{username}/amount/{amount}/discount", method = RequestMethod.PUT)
     public BuyWithPointsDto buyWithPoints(@PathVariable("username") String username,
                                           @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
-        BuyWithPointsDto buyWithPointsDto;
+        BuyWithPointsDto buyWithPointsDtoRes;
         try {
-            buyWithPointsDto = buyWithPointsService.processPurchaseWithPoints(username, amount);
+            buyWithPointsDtoRes = buyWithPointsService.processPurchaseWithPoints(username, amount);
         } catch (ServiceException e) {
             throw new RestApiException(e.getMessage(), e.getExceptionType());
         }
-        return buyWithPointsDto;
+        return buyWithPointsDtoRes;
     }
 
 }

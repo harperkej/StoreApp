@@ -3,13 +3,13 @@ package thesis.buyproducts.dto;
 public class BuyWithPointsDto {
 
 	private String username;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private Double pointsLeft;
-	
+
 	private Double hasToPay;
 
 	public String getUsername() {
@@ -51,7 +51,5 @@ public class BuyWithPointsDto {
 	public void setHasToPay(Double hasToPay) {
 		this.hasToPay = hasToPay;
 	}
-	
-	
-	
+
 }

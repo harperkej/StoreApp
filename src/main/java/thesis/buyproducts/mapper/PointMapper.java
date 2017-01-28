@@ -1,10 +1,10 @@
 package thesis.buyproducts.mapper;
 
+import thesis.buyproducts.dto.PointMappingDto;
+import thesis.buyproducts.entity.PointMappingEntity;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import thesis.buyproducts.entity.PointMappingEntity;
-import thesis.buyproducts.dto.PointMappingDto;
 
 public final class PointMapper implements Mapper<PointMappingEntity, PointMappingDto> {
 

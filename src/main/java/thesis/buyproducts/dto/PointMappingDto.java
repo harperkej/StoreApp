@@ -4,25 +4,25 @@ import javax.validation.constraints.Min;
 
 public class PointMappingDto {
 
-	private Long id;
+    private Long id;
 
-	@Min(value = 0)
-	private Double value;
+    @Min(value = 0)
+    private Double value;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Double getValue() {
-		return value;
-	}
+    public Double getValue() {
+        return value;
+    }
 
-	public void setValue(Double value) {
-		this.value = value;
-	}
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
 }

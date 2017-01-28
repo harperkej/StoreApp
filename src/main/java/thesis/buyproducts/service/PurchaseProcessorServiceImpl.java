@@ -1,20 +1,19 @@
 package thesis.buyproducts.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import thesis.buyproducts.dto.CustomerAccountDto;
 import thesis.buyproducts.dto.CustomerDto;
 import thesis.buyproducts.execption.ExceptionType;
 import thesis.buyproducts.execption.RepositoryException;
 import thesis.buyproducts.execption.ServiceException;
 import thesis.buyproducts.repository.CustomerRepository;
 import thesis.buyproducts.util.ConvertUtil;
-import thesis.buyproducts.dto.CustomerAccountDto;
+
+import javax.transaction.Transactional;
 
 @Component
-@Transactional
+@Transactional(rollbackOn = {RepositoryException.class, ServiceException.class, Exception.class})
 public class PurchaseProcessorServiceImpl implements PurchaseProcessorService {
 
     @Autowired
