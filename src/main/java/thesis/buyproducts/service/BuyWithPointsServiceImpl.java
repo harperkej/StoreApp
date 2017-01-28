@@ -18,7 +18,7 @@ import thesis.buyproducts.dto.BuyWithPointsDto;
 public class BuyWithPointsServiceImpl implements BuyWithPointsService {
 
     @Autowired
-    private CustomerRepository customerDao;
+    private CustomerRepository customerepository;
 
     @Autowired
     private CustomerService customerService;
@@ -43,7 +43,7 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
             if (pointsOfTheCostumer.doubleValue() == pointsBasedOnAmount.doubleValue()) {
                 pointsOfTheCostumer = new Double(0);
                 customerDto.setPoints(pointsOfTheCostumer);
-                customerDao.update(customerDto);
+                customerepository.update(customerDto);
                 purchaseResult = new BuyWithPointsDto();
                 purchaseResult.setFirstName(customerDto.getFirstName());
                 purchaseResult.setLastName(customerDto.getLastName());
@@ -53,7 +53,7 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
             } else if (pointsOfTheCostumer > pointsBasedOnAmount) {
                 pointsOfTheCostumer = pointsOfTheCostumer - pointsBasedOnAmount;
                 customerDto.setPoints(pointsOfTheCostumer);
-                customerDao.update(customerDto);
+                customerepository.update(customerDto);
                 purchaseResult.setFirstName(customerDto.getFirstName());
                 purchaseResult.setLastName(customerDto.getLastName());
                 purchaseResult.setUsername(customerDto.getUserName());
@@ -61,7 +61,7 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
                 purchaseResult.setPointsLeft(customerDto.getPoints());
             } else if (pointsOfTheCostumer < pointsBasedOnAmount) {
                 customerDto.setPoints(new Double(0));
-                customerDao.update(customerDto);
+                customerepository.update(customerDto);
                 purchaseResult.setFirstName(customerDto.getFirstName());
                 purchaseResult.setFirstName(customerDto.getFirstName());
                 purchaseResult.setLastName(customerDto.getLastName());
