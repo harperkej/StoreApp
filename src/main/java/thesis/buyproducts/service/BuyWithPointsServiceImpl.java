@@ -17,13 +17,13 @@ import javax.transaction.Transactional;
 public class BuyWithPointsServiceImpl implements BuyWithPointsService {
 
     @Autowired
-    private CustomerRepository customerepository;
+    CustomerRepository customerepository;
 
     @Autowired
-    private CustomerService customerService;
+    CustomerService customerService;
 
     @Autowired
-    private ConvertUtil convertUtil;
+    ConvertUtil convertUtil;
 
     @Override
     public BuyWithPointsDto processPurchaseWithPoints(String username, Double amount) throws ServiceException {
@@ -34,7 +34,7 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
             if (pointsOfTheCostumer == null) {
                 pointsOfTheCostumer = new Double(0);
             }
-            Double pointsBasedOnAmount = convertUtil.validateAmount(amount);
+            Double pointsBasedOnAmount = convertUtil.validateAndConvertAmountToPoints(amount);
             if (new Double(-1).equals(pointsBasedOnAmount)) {
                 throw new ServiceException("Amount : " + amount + " not valid amount :-(", ExceptionType.BAD_INPUT);
             }
@@ -66,10 +66,9 @@ public class BuyWithPointsServiceImpl implements BuyWithPointsService {
                 purchaseResult.setUsername(customerDto.getUserName());
                 purchaseResult.setPointsLeft(customerDto.getPoints());
                 Double pointsToConvertInAmount = pointsBasedOnAmount - pointsOfTheCostumer;
-                Double amountToPay = convertUtil.validateAmount(pointsToConvertInAmount);
+                Double amountToPay = convertUtil.validateAndConvertAmountToPoints(pointsToConvertInAmount);
                 purchaseResult.setHasToPay(amountToPay);
             }
-
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e.getExceptionType());
         } catch (ServiceException e) {
