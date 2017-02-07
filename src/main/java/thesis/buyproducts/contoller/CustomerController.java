@@ -67,7 +67,7 @@ public class CustomerController {
     }
 
     @ResponseStatus(code = HttpStatus.FOUND)
-    @RequestMapping(value = "/username/{username}/", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{username}/", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CustomerDto findByUserName(@PathVariable("username") String userName) throws RestApiException {
         CustomerDto customerDtoRes;
         try {
@@ -78,9 +78,9 @@ public class CustomerController {
         return customerDtoRes;
     }
 
-    @RequestMapping(value = "/username/{username}/amount/{amount}/points", method = RequestMethod.PUT)
+    @RequestMapping(value = "/username/{username}/points", method = RequestMethod.PUT)
     public CustomerAccountDto processPurchase(@PathVariable("username") String username,
-                                              @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
+                                              @RequestParam(value = "amount", required = true) Double amount) throws RestApiException {
         CustomerAccountDto customerAccountDtoRes;
         try {
             customerAccountDtoRes = purchaseProcessorService.processPurchase(username, amount);
@@ -90,9 +90,9 @@ public class CustomerController {
         return customerAccountDtoRes;
     }
 
-    @RequestMapping(value = "/username/{username}/amount/{amount}/discount", method = RequestMethod.PUT)
+    @RequestMapping(value = "/username/{username}/discount", method = RequestMethod.PUT)
     public BuyWithPointsDto buyWithPoints(@PathVariable("username") String username,
-                                          @PathVariable("amount") @Min(value = 0) Double amount) throws RestApiException {
+                                          @RequestParam(value = "amount", required = true) @Min(value = 0) Double amount) throws RestApiException {
         BuyWithPointsDto buyWithPointsDtoRes;
         try {
             buyWithPointsDtoRes = buyWithPointsService.processPurchaseWithPoints(username, amount);
@@ -101,5 +101,4 @@ public class CustomerController {
         }
         return buyWithPointsDtoRes;
     }
-
 }
