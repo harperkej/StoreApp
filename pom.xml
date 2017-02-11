@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>thesis.buyproducts</groupId>
-    <artifactId>Thesis-App</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>StoreApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Thesis-App</name>
